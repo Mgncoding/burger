@@ -59,3 +59,4 @@ var orm = {
         })
     }
 }
+console.log(orm);
