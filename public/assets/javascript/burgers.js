@@ -30,5 +30,15 @@ $(function() {
               console.log("Burger Devoured!");
               location.reload();
       });
-        })
-})
+        });
+        $(".trashburger").on("click", function(event) {
+            event.preventDefault();
+
+            var id = $(this).data("id");
+            // Delete request
+            $.ajax({
+                type: "DELETE",
+                url: "/api/burgers/" + id
+            }).then(location.reload());
+        });
+});

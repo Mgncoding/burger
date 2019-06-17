@@ -14,9 +14,12 @@ app.use(bodyParser.json());
 app.engine("handlebars", exphbs({ defaultLayout: "main"}));
 app.set("view engine", "handlebars");
 
+var routes = require("./controllers/burger_controller");
+app.use(routes);
+
 
 
 // Listening for PORT
 app.listen(PORT, function() {
-    console.log("Server listening on: http://localhost:8080")
+    console.log("Server listening on: http://localhost:" + PORT)
 })
