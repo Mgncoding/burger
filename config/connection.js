@@ -1,22 +1,19 @@
 const mysql = require("mysql");
+var connection;
 
-// const keys = require("../keys");
+if(process.env.JAWSDB_URL) {
+    connection = mysql.createConnection(process.env.JAWSDB_URL);
+}else {
 
-// let connection = mysql.createConnection({
-//     host: keys.mysql.host,
-//     port: keys.mysql.port,
-//     user: keys.mysql.user,
-//     password: keys.mysql.password,
-//     database: keys.mysql.database
-// })
+    connection = mysql.createConnection({
+            port: 3306,
+            host: 'localhost',
+            user: 'root',
+            password: 'root',
+            database: 'burgers_db'
+        });
+}
 
-var connection = mysql.createConnection({
-		port: 3306,
-		host: 'localhost',
-		user: 'root',
-		password: 'root',
-		database: 'burgers_db'
-	});
 
 connection.connect(function(err) {
     if (err) {
@@ -26,4 +23,5 @@ connection.connect(function(err) {
     
     console.log("connection as id " + connection.threadId)
 });
+connection.connect();
 module.exports = connection;
