@@ -1,44 +1,45 @@
 $(function() {
     $(".create-form").on("submit", function(event) {
-        event.preventDefault();
-
+        // event.preventDefault();
+        var newDevoured = $(this).data("newdevoured");
         var newBurger = {
             burger_name: $("#newburger").val().trim(),
-            devoured: 0
+            devoured: newDevoured
         };
-
-        // listening for the POST call 
+        // Send POST request
         $.ajax("/api/burgers", {
             type: "POST",
             data: newBurger
         }).then(function() {
-            console.log("Added new burger!");
+            console.log("Add new Burger");
+            location.reload()
+        });
+    });
+    $(".eatburger").on("click", function(event) {
+        // event.preventDefault();
+        var id = $(this).data("id");
+
+        var devouredState = {
+            devoured: 1
+        };
+        $.ajax("/api/burgers", id, {
+            type: "PUT",
+            data: devouredState
+        }).then(function() {
+            console.log("Burger Devoured", newDevoured);
             location.reload();
         });
     });
-      $(".eatburger").on("click", function(event) {
-          event.preventDefault();
-
-          var id = $(this).data("id");
-          var devouredState = {
-              devoured: 1
-          };
-          $.ajax("/api/burgers/" + id, {
-              type: "PUT",
-              data: devouredState
-          }).then(function() {
-              console.log("Burger Devoured!");
-              location.reload();
-      });
+    $(".trashburger").on("click", function(event) {
+        // event.preventDefault();
+        var id = $(this).data("id");
+        $.ajax("/api/burgers" + id, {
+            type: "DELETE"
+        }).then(function() {
+            console.log("Delete burger", id);
+            location.reload();
         });
-        $(".trashburger").on("click", function(event) {
-            event.preventDefault();
-
-            var id = $(this).data("id");
-            // Delete request
-            $.ajax({
-                type: "DELETE",
-                url: "/api/burgers/" + id
-            }).then(location.reload());
-        });
+    });
 });
+
+
