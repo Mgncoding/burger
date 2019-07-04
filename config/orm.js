@@ -76,7 +76,7 @@ var orm = {
         dbQuery += condition;
 
         console.log(dbQuery);
-        connection.query(dbQuery, vals, function(err, result) {
+        connection.query(dbQuery, function(err, result) {
             if (err) {
                 throw err;
             }

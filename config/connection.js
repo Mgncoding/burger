@@ -14,7 +14,7 @@ if(process.env.JAWSDB_URL) {
         });
 }
 
-
+var PORT = process.env.PORT || 8080;
 connection.connect(function(err) {
     if (err) {
         console.log("error connecting: " + err.stack);
