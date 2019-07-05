@@ -53,6 +53,9 @@
           {{#if this.devoured}}
           <div class="burger well" id="{{this.id}}">
             <span> <img src="/assets/img/burger-icon.png" id="icon2"> | <strong>{{this.burger_name}}</strong> </span>
+            <button class="change-devoured-state" data-id="{{this.id}}" data-devoured="{{this.devoured}}">
+        DEVOUR ME
+    </button>
            
           </div>
           {{/if}}
