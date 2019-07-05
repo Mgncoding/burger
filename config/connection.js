@@ -1,8 +1,15 @@
 const mysql = require("mysql");
-var connection;
+var connection = {}
 
-if(process.env.JAWSDB_URL) {
-    connection = mysql.createConnection(process.env.JAWSDB_URL);
+if((process.env.PORT || 3000) != 3000) {
+    connection = {
+        host: "jsk3f4rbvp8ayd7w.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
+        port: 3306,
+        user: "vh5fx1mqe4ykgase",
+        password: "i4zsu30m1l90klb4",
+        database: "ewv7v4y60wscdzin"
+    }
+    
 }else {
 
     connection = mysql.createConnection({
