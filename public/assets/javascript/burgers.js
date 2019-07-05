@@ -1,64 +1,49 @@
 $(function() {
-    $(".change-devoured").on("click", function(event) {
-      var id = $(this).data("id");
-      var devouredStatus = $(this).data("devour");
+	$(".create-form").on("submit", function(event) {
+	  event.preventDefault();
   
-      var newDevourStatus = {
-        devoured: devouredStatus
-      };
+	  var newBurger = {
+		burger_name: $("#newburger")
+		  .val()
+		  .trim(),
+		devoured: 0
+	  };
   
-      // Send the PUT request.
-      $.ajax("/api/burger/" + id, {
-        type: "PUT",
-        data: newDevourStatus
-      }).then(
-        function() {
-          console.log("changed devoured to", newDevourStatus);
-          // Reload the page to get the updated list
-          location.reload();
-        }
-      );
-    });
+	  $.ajax("/api/burgers", {
+		type: "POST",
+		data: newBurger
+	  }).then(function() {
+		console.log("Added new burger");
+		location.reload();
+	  });
+	});
   
-    $(".delete").on("click", function(event) {
-      var id = $(this).data("id");
-     
+	$(".eatburger").on("click", function(event) {
+	  event.preventDefault();
   
-    
+	  var id = $(this).data("id");
+	  var devouredState = {
+		devoured: 1
+	  };
   
-      // Send the PUT request.
-      $.ajax("/api/burger/" + id, {
-        type: "DELETE",
-       
-      }).then(
-        function() {
-          console.log("changed devoured to Deleted");
-          // Reload the page to get the updated list
-          location.reload();
-        }
-      );
-    });
+	  $.ajax("/api/burgers/" + id, {
+		type: "PUT",
+		data: devouredState
+	  }).then(function() {
+		console.log("Burger devoured");
+		location.reload();
+	  });
+	});
   
+	$(".trashburger").on("click", function(event) {
+	  event.preventDefault();
   
-    $(".create-form").on("submit", function(event) {
-      // Make sure to preventDefault on a submit event.
-      event.preventDefault();
+	  var id = $(this).data("id");
   
-      var newBurger = {
-        burger_name: $("#bu").val().trim(),
-      };
-  
-      // Send the POST request.
-      $.ajax("/api/burger", {
-        type: "POST",
-        data: newBurger
-      }).then(
-        function() {
-          console.log("created new Burger");
-          // Reload the page to get the updated list
-          location.reload();
-        }
-      );
-    });
+	  // Send the DELETE request.
+	  $.ajax({
+		type: "DELETE",
+		url: "/api/burgers/" + id
+	  }).then(location.reload());
+	});
   });
-  

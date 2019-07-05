@@ -1,87 +1,60 @@
-var connection = require("../config/connection");
+var connection = require('../config/connection.js')
 
-function createQmarks(num) {
-    var arr = [];
-    for (var i = 0; i < num; i++) {
-        arr.push("?");
-    }
-    return arr.toString();
+// Helper functions
+function printQuestionMarks(num) {
+  var arr = [];
+
+  for (var i = 0; i < num; i++) {
+    arr.push("?");
+  }
+
+  return arr.toString();
 }
 
-function objToSql(ob) { 
-    var arr = [];
-    for (var key in ob) {
-        var value = ob[key];
-        if (Object.hasOwnProperty.call(ob, key)) {
-            if(typeof value === "string" && value.indexOf(" ") >= 0) {
-                value = "'" + value + "'";
-            }
-            arr.push(key + "= " + value)
-        }
+function objToSql(ob) {
+  var arr = [];
+
+  for (var key in ob) {
+    if (Object.hasOwnProperty.call(ob, key)) {
+      arr.push(key + "=" + ob[key]);
     }
-return arr.toString();
+  }
+
+  return arr.toString();
 }
 
+
+// ORM
 var orm = {
-    all: function (table, cb) {
-        var dbQuery = "SELECT * FROM " + table + ";";
+  // Used to show each burger
+  selectAll: function(table, cb) {
+    let queryString = "SELECT * FROM " + table;
 
-        connection.query(dbQuery, function (err, result) {
-            if (err) {
-                throw err;
-            }
-            cb(result);
-        })
-    },
-    create: function (table, cols, vals, cb) {
-        var dbQuery = "INSERT INTO " + table;
+    connection.query(queryString, function(err, result) {
+      if (err) throw err;
 
-        dbQuery += " (";
-        dbQuery += cols.toString();
-        dbQuery += ") ";
-        dbQuery += "VALUES (";
-        dbQuery += createQmarks(vals.length);
-        dbQuery += ") ";
+      //console.log(result)
+      cb(result)
+    }) 
+  },
+  insert: function(table, cols, vals, cb) {
+    var queryString  = "INSERT INTO " + table + "( " + cols.toString() + ") VALUES ( " + printQuestionMarks(vals.length) + ")"
 
-   console.log(dbQuery);
+    connection.query(queryString, vals, function(err, result) {
+      if (err) throw err;
 
-   connection.query(dbQuery, vals, function(err, result) {
-       if (err) {
-           throw err;
-       }
-       cb(result)
-   })
-    },
-    update: function(table, objColVals, condition, cb) {
-        var dbQuery = "UPDATE " + table; 
+      cb(result)
+    })
+  },
+  devour: function(table, objColVals, id, cb) {
+    var queryString = "UPDATE " + table + " SET " + objToSql(objColVals) + " WHERE id = " + id;
+    
+    console.log(queryString)
+    connection.query(queryString, function(err, result) {
+      if (err) throw err;
 
-        dbQuery += " SET ";
-        dbQuery += objToSql(objColVals);
-        dbQuery += " WHERE ";
-        dbQuery += condition;
-
-        console.log(dbQuery);
-
-        connection.query(dbQuery, vals, function(err, result) {
-            if (err) {
-                throw err;
-            }
-            cb(result);
-        });
-    },
-    delete: function(table, condition, cb) {
-        var dbQuery = "DELETE FROM " + table;
-        
-        dbQuery += " WHERE ";
-        dbQuery += condition;
-
-        console.log(dbQuery);
-        connection.query(dbQuery, function(err, result) {
-            if (err) {
-                throw err;
-            }
-            cb(result)
-        })
-    }
-}
-module.exports = orm
+      cb(result)
+    });
+  }
+};
+module.exports = orm;

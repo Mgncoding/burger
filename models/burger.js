@@ -1,25 +1,26 @@
-var orm = require("../config/orm");
+var orm = require('../config/orm.js')
 
-var burger = {
-    all: function(cb) {
-        orm.all("burgers", function(res) {
-            cb(res);
-        });
-    },
-    create: function(cols, vals, cb) {
-        orm.create("burgers", cols, vals, function(res) {
-            cb(res);
-        });
-    },
-    update: function(objColVals, condition, cb) {
-        orm.update("burgers", objColVals, condition, function(res) {
-            cb(res);
-        });
-    },
-    delete: function(objColVals, condition, cb) {
-        orm.delete("burgers", objColVals, condition, function(res) {
-            cb(res);
-        });
-    }
-};
+// Create code here that will call the ORM functions using burger specific input for the ORM (???) <see cat example>
+
+let burger = {
+  selectAll: function(cb) {
+    orm.selectAll("burgers", function(results) {
+
+      cb(results)
+    })
+  },
+  insert: function(cols, vals, cb) {
+    orm.insert("burgers", cols, vals, function(results) {
+
+      cb(results)
+    })
+  },
+  devour: function(objColVals, id, cb) {
+    orm.devour("burgers", objColVals, id, function(results) {
+
+      cb(results)
+    })
+  }
+}
+
 module.exports = burger;

@@ -1,64 +1,64 @@
+<div class="page-header">
+    <h1>Eat-Da-Burger</h1>
+</div>  
 <div class="container">
-
-  <h1 class="text-center main-title">Best Burgers in Town!</h1>
+  
   <div class="row">
-    <div class="col-sm burger-section">
-      <h2 class="text-center">Burger Menu</h2>
-     <ol class="burger-menu">
-  {{#each burgers}}
-    {{#unless devoured}}
-      {{> burgers/new_burger devoured=true}}
-    {{/unless}}
-  {{/each}}
-</ol>
-    </div>
-    <div class="col text-center">
-      <img src="./assets/img/b2.png" alt="burger" height="178" width="273">
-    </div>
-    <div class="col-sm burger-section">
-      
-<h2 class="text-center">Devoured Burgers!</h2>
-
-<ul>
-  {{#each burgers}}
-    {{#if devoured}}
-    
-      {{> burgers/burger-block devoured=false}}
-    {{/if}}
-  {{/each}}
-</ul>
-
+    <div class="col-sm-12">
+      <div class="panel" id="submit-area">
+        <div class="panel-header">
+          <h2>Add a burger</h2>
+        </div>
+        <div class="panel-body">
+          <form action="/" method="POST">
+          <div class="form-group">
+            <textarea type="form-control" name="burger_name" rows="1"></textarea>
+          </div>
+          <div class="form-group">
+            <button class="btn btn-default" type="submit">Submit!</button>
+          </div>
+          </form>
+        </div>
+      </div>
     </div>
   </div>
-
-<h2 class="text-center title-burger">Write your Burger Description</h2>
-<form class="create-form text-center">
-
-  <div class="form-group text-center">
-    {{!-- <label for="bu">Burger Name:</label> --}}
-    {{!-- <input type="text" id="bu" name="name"> --}}
-    <textarea class="description" type="text" id="bu" name="name"></textarea>
-    
+  <div class="row">
+    <div class="col-md-6 col-lg-6 col-sm-12">
+      <div class="panel">
+        <div class="panel-header">
+          <h2>Burgers to Eat!</h2>
+        </div>
+        <div class="panel-body" id="uneaten">
+        {{#each burgers}}
+          {{#unless this.devoured}}          
+            <div class="burger well" id="{{this.id}}">
+            
+              <form action="/{{this.id}}?_method=PUT" method="POST">
+                  <span> <img src="/assets/img/burger-icon2.png" id="icon"> | <strong>{{this.burger_name}}</strong></span>
+                  <button class="btn btn-sm btn-default pull-right" type="submit" name="devoured" value="true">Devour!</button>
+              </form>
+            </div>
+          {{/unless}}
+        {{/each}}
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-6 col-sm-12">
+      <div class="panel">
+        <div class="panel-header">
+          <h2>Devoured Burgers</h2>
+        </div>
+        <div class="panel-body" id="eaten">
+        {{#each burgers}}
+          {{#if this.devoured}}
+          <div class="burger well" id="{{this.id}}">
+            <span> <img src="/assets/img/burger-icon.png" id="icon2"> | <strong>{{this.burger_name}}</strong> </span>
+           
+          </div>
+          {{/if}}
+        {{/each}}
+        </div>
+      </div>
+    </div>
   </div>
-
-  <button class="burger-button btn-warning" type="submit">Add a Burger</button>
-</form>
 </div>
-
-
-<ul>
-  {{#each burgers}}
-    {{#unless devoured}}
-      {{> burgers/new_burger devoured=true}}
-    {{/unless}}
-  {{/each}}
-</ul> --}}
-
-<h2>Burgers that are devoured!</h2>
-<ul>
-  {{#each burgers}}
-    {{#if devoured}}
-      {{> burgers/burger-block devoured=false}}
-    {{/if}}
-  {{/each}}
-</ul> 
