@@ -2,7 +2,7 @@ const mysql = require("mysql");
 var connection = {}
 
 if((process.env.PORT || 3000) != 3000) {
-    connection = {
+   var connection = {
         host: "jsk3f4rbvp8ayd7w.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
         port: 3306,
         user: "vh5fx1mqe4ykgase",
@@ -12,7 +12,7 @@ if((process.env.PORT || 3000) != 3000) {
     
 }else {
 
-    connection = mysql.createConnection({
+   var connection = mysql.createConnection({
             port: 3306,
             host: 'localhost',
             user: 'root',
@@ -30,5 +30,5 @@ connection.connect(function(err) {
     
     console.log("connection as id " + connection.threadId)
 });
-// connection.connect();
+connection.connect();
 module.exports = connection;
